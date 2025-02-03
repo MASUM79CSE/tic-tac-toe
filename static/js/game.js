@@ -7,6 +7,16 @@ class TicTacToe {
         this.cells = document.querySelectorAll('[data-cell]');
         this.status = document.getElementById('status');
         this.restartButton = document.getElementById('restartButton');
+
+        // Load sound files
+        this.clickSound = new Audio('/static/sounds/click.mp3');
+        this.winSound = new Audio('/static/sounds/win.mp3');
+        
+        // Score tracking
+        this.xScore = 0;
+        this.oScore = 0;
+        this.xScoreElement = document.getElementById('xScore');
+        this.oScoreElement = document.getElementById('oScore');
         
         this.winningCombinations = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
@@ -19,7 +29,13 @@ class TicTacToe {
     
     initializeGame() {
         this.cells.forEach(cell => {
+            cell.setAttribute('tabindex', '0');  // Add tabindex to make cells focusable
             cell.addEventListener('click', (e) => this.handleCellClick(e), { once: true });
+            cell.addEventListener('keydown', (e) => {  // Add keyboard event listener
+                if (e.key === 'Enter' || e.key === ' ') {
+                    this.handleCellClick(e);
+                }
+            });
         });
         
         this.restartButton.addEventListener('click', () => this.restartGame());
@@ -27,6 +43,8 @@ class TicTacToe {
     }
     
     handleCellClick(e) {
+        this.clickSound.play(); // Play sound on cell click
+        
         const cell = e.target;
         const index = Array.from(this.cells).indexOf(cell);
         
@@ -38,6 +56,7 @@ class TicTacToe {
         
         if (this.checkWin()) {
             this.gameActive = false;
+            this.winSound.play(); // Play sound on win
             this.updateStatus(`${this.currentPlayer} Wins!`);
             return;
         }
@@ -58,6 +77,15 @@ class TicTacToe {
                 combination.forEach(index => {
                     this.cells[index].classList.add('winning-cell');
                 });
+                
+                // Update Score
+                if (this.currentPlayer === 'X') {
+                    this.xScore++;
+                    this.xScoreElement.textContent = this.xScore;
+                } else {
+                    this.oScore++;
+                    this.oScoreElement.textContent = this.oScore;
+                }
                 return true;
             }
             return false;
