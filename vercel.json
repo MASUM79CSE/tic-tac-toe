@@ -1,17 +1,13 @@
 {
   "version": 2,
   "routes": [
-      {
-          "src": "/ws/(.*)",
-          "dest": "app.py"
-      },
-      {
-          "src": "/create-game",
-          "dest": "app.py"
-      },
-      {
-          "src": "/(.*)",
-          "dest": "app.py"
-      }
+    {
+      "src": "/ws/(.*)",
+      "dest": "api/app.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "api/app.py"
+    }
   ]
 }
