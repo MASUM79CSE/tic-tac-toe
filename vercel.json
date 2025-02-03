@@ -3,15 +3,15 @@
   "routes": [
       {
           "src": "/ws/(.*)",
-          "dest": "main.py"
+          "dest": "app.py"
       },
       {
           "src": "/create-game",
-          "dest": "main.py"
+          "dest": "app.py"
       },
       {
           "src": "/(.*)",
-          "dest": "main.py"
+          "dest": "app.py"
       }
   ]
 }
